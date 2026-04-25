@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Network IDS – Project Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg:       #0a0e1a;
+    --surface:  #111827;
+    --card:     #161d2e;
+    --border:   #1e2d45;
+    --accent:   #00d4ff;
+    --green:    #00ff9d;
+    --red:      #ff4757;
+    --yellow:   #ffd32a;
+    --purple:   #9c88ff;
+    --text:     #c8d6e5;
+    --muted:    #4a5568;
+    --mono:     'JetBrains Mono', monospace;
+    --sans:     'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Header ─────────────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1b33 60%, #0a1628 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 300px at 70% 50%, rgba(0,212,255,.06), transparent),
+      radial-gradient(ellipse 400px 200px at 20% 80%, rgba(0,255,157,.04), transparent);
+    pointer-events: none;
+  }
+  .header-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: center;
+    max-width: 960px;
+    margin: auto;
+  }
+  .shield {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 0 40px rgba(0,212,255,.3);
+    flex-shrink: 0;
+  }
+  h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; color: #fff; }
+  .tagline {
+    font-family: var(--mono);
+    font-size: .8rem;
+    color: var(--accent);
+    margin-top: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .badges { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .badge {
+    font-family: var(--mono);
+    font-size: .72rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .badge-blue  { border-color: var(--accent);  color: var(--accent); }
+  .badge-green { border-color: var(--green);   color: var(--green);  }
+  .badge-yel   { border-color: var(--yellow);  color: var(--yellow); }
+
+  /* ── Main layout ─────────────────────────────────────── */
+  main { max-width: 960px; margin: 0 auto; padding: 48px 32px 80px; }
+
+  section { margin-bottom: 56px; }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  h2 .num {
+    font-family: var(--mono);
+    font-size: .85rem;
+    color: var(--accent);
+    background: rgba(0,212,255,.1);
+    padding: 2px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,212,255,.25);
+  }
+
+  /* ── Cards ───────────────────────────────────────────── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:600px) { .card-row { grid-template-columns: 1fr; } }
+
+  /* ── Architecture diagram ─────────────────────────────── */
+  .arch {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    font-family: var(--mono);
+    font-size: .85rem;
+    line-height: 2;
+  }
+  .arch .folder { color: var(--yellow); }
+  .arch .file   { color: var(--accent); }
+  .arch .comment{ color: var(--muted); font-size: .75rem; }
+  .arch .gen    { color: var(--green); }
+
+  /* ── Code blocks ─────────────────────────────────────── */
+  pre {
+    background: #080d18;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px 24px;
+    font-family: var(--mono);
+    font-size: .82rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    position: relative;
+  }
+  pre .comment { color: #4a6880; }
+  pre .cmd     { color: var(--green); }
+  pre .kw      { color: var(--purple); }
+  pre .str     { color: var(--yellow); }
+  pre .label   { color: var(--accent); font-weight: 600; }
+
+  /* ── Alert examples ──────────────────────────────────── */
+  .alert-ex {
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-family: var(--mono);
+    font-size: .78rem;
+    margin-bottom: 10px;
+    border-left: 3px solid;
+    line-height: 1.6;
+  }
+  .alert-high   { background: rgba(255,71,87,.08);  border-color: var(--red);    color: #ff8a95; }
+  .alert-medium { background: rgba(255,211,42,.07); border-color: var(--yellow); color: #ffe07a; }
+  .alert-info   { background: rgba(0,212,255,.07);  border-color: var(--accent); color: #7ee8ff; }
+
+  /* ── Rules grid ─────────────────────────────────────── */
+  .rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media(max-width:600px) { .rules { grid-template-columns: 1fr; } }
+  .rule-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .rule-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .rule-card.r1::before { background: linear-gradient(90deg, var(--red), transparent); }
+  .rule-card.r2::before { background: linear-gradient(90deg, var(--yellow), transparent); }
+  .rule-card.r3::before { background: linear-gradient(90deg, var(--purple), transparent); }
+  .rule-card.r4::before { background: linear-gradient(90deg, var(--accent), transparent); }
+  .rule-icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .rule-title { font-weight: 700; color: #fff; font-size: 1rem; margin-bottom: 6px; }
+  .rule-desc  { font-size: .85rem; color: var(--text); }
+  .rule-param {
+    margin-top: 12px;
+    background: rgba(255,255,255,.04);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: .75rem;
+    color: var(--muted);
+  }
+  .rule-param span { color: var(--accent); }
+
+  /* ── Step timeline ───────────────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+    position: relative;
+    padding-bottom: 28px;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: .9rem;
+    color: #000;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 40px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+  .step:last-child::before { display: none; }
+  .step-body { padding-top: 8px; }
+  .step-title { font-weight: 700; color: #fff; font-size: 1rem; margin-bottom: 6px; }
+  .step-desc  { font-size: .88rem; color: var(--text); }
+
+  /* ── Improvements ────────────────────────────────────── */
+  .improvements { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media(max-width:700px) { .improvements { grid-template-columns: 1fr 1fr; } }
+  .imp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color .2s;
+  }
+  .imp-card:hover { border-color: var(--accent); }
+  .imp-icon  { font-size: 1.5rem; margin-bottom: 8px; }
+  .imp-title { font-weight: 700; color: #fff; font-size: .9rem; margin-bottom: 4px; }
+  .imp-desc  { font-size: .8rem; color: var(--muted); }
+
+  /* ── Flow diagram ────────────────────────────────────── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .flow-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-family: var(--mono);
+    font-size: .8rem;
+    text-align: center;
+    min-width: 120px;
+  }
+  .flow-box .fb-title { color: #fff; font-weight: 700; margin-bottom: 2px; }
+  .flow-box .fb-file  { color: var(--muted); font-size: .7rem; }
+  .flow-arrow { color: var(--accent); font-size: 1.2rem; }
+
+  p { margin-bottom: 12px; font-size: .9rem; }
+  ul { padding-left: 20px; font-size: .88rem; }
+  li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-grid">
+    <div class="shield">🛡️</div>
+    <div>
+      <h1>Network Intrusion Detection System</h1>
+      <div class="tagline">College CN Project · Python · Scapy · Rule-Based</div>
+      <div class="badges">
+        <span class="badge badge-blue">Python 3.10+</span>
+        <span class="badge badge-green">Scapy</span>
+        <span class="badge badge-yel">4 Detection Rules</span>
+        <span class="badge badge-blue">Alert Logging</span>
+        <span class="badge badge-green">Beginner Friendly</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── Architecture ──────────────────────────────────── -->
+  <section>
+    <h2><span class="num">01</span> Project Architecture</h2>
+    <div class="arch">
+      <div><span class="folder">network_ids/</span></div>
+      <div>&nbsp;&nbsp;├── <span class="file">config.py</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">← all thresholds, ports, rules</span></div>
+      <div>&nbsp;&nbsp;├── <span class="file">logger.py</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">← alert output (console + file)</span></div>
+      <div>&nbsp;&nbsp;├── <span class="file">detector.py</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">← rule-based detection engine</span></div>
+      <div>&nbsp;&nbsp;├── <span class="file">sniffer.py</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">← live packet capture (Scapy)</span></div>
+      <div>&nbsp;&nbsp;├── <span class="file">main.py</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">← entry point, wires everything</span></div>
+      <div>&nbsp;&nbsp;├── <span class="file">test_detector.py</span> &nbsp;<span class="comment">← unit tests (no root needed)</span></div>
+      <div>&nbsp;&nbsp;└── <span class="gen">alerts.log</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">← auto-generated at runtime</span></div>
+    </div>
+
+    <br/>
+
+    <div class="flow">
+      <div class="flow-box">
+        <div class="fb-title">🌐 Network</div>
+        <div class="fb-file">live packets</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="fb-title">Sniffer</div>
+        <div class="fb-file">sniffer.py</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="fb-title">Detector</div>
+        <div class="fb-file">detector.py</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="fb-title">Logger</div>
+        <div class="fb-file">logger.py</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="fb-title">📋 alerts.log</div>
+        <div class="fb-file">+ terminal</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Detection Rules ───────────────────────────────── -->
+  <section>
+    <h2><span class="num">02</span> Detection Rules</h2>
+    <div class="rules">
+      <div class="rule-card r1">
+        <div class="rule-icon">🌊</div>
+        <div class="rule-title">Packet Flood</div>
+        <div class="rule-desc">One IP sending a huge burst of packets in a short time — signs of DoS or scanning.</div>
+        <div class="rule-param">threshold: <span>100 pkts / 10 sec</span></div>
+      </div>
+      <div class="rule-card r2">
+        <div class="rule-icon">🔌</div>
+        <div class="rule-title">Suspicious Ports</div>
+        <div class="rule-desc">Access to sensitive ports like SSH (22), Telnet (23), RDP (3389) triggers an alert.</div>
+        <div class="rule-param">ports: <span>22, 23, 445, 3389 …</span></div>
+      </div>
+      <div class="rule-card r3">
+        <div class="rule-icon">🔄</div>
+        <div class="rule-title">Repeated Connection</div>
+        <div class="rule-desc">Same (src → dst:port) pair hammered repeatedly — brute-force or port scan.</div>
+        <div class="rule-param">threshold: <span>50 repeats</span></div>
+      </div>
+      <div class="rule-card r4">
+        <div class="rule-icon">🚫</div>
+        <div class="rule-title">Blacklisted IP</div>
+        <div class="rule-desc">Any packet involving a known-bad IP address triggers an immediate HIGH alert.</div>
+        <div class="rule-param">source: <span>config.py → BLACKLISTED_IPS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Implementation Steps ──────────────────────────── -->
+  <section>
+    <h2><span class="num">03</span> Implementation Plan</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Install dependencies</div>
+          <div class="step-desc">Install Python 3.10+ and Scapy. On Linux, also install <code>libpcap</code>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Configure rules in config.py</div>
+          <div class="step-desc">Adjust PACKET_FLOOD_THRESHOLD, TIME_WINDOW, SUSPICIOUS_PORTS, and BLACKLISTED_IPS to match your lab environment.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Run unit tests (no root needed)</div>
+          <div class="step-desc">Verify the detection logic works correctly before touching live traffic.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Start the IDS as root/Administrator</div>
+          <div class="step-desc">Raw packet capture requires elevated privileges on all platforms.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Simulate attacks to trigger alerts</div>
+          <div class="step-desc">Use ping flood, nmap, or a test script to generate detectable traffic and verify alerts appear.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Inspect alerts.log</div>
+          <div class="step-desc">Every alert is timestamped and saved to the log file automatically. Show this in your viva.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How to Run ─────────────────────────────────────── -->
+  <section>
+    <h2><span class="num">04</span> How to Run &amp; Test</h2>
+
+    <div class="card">
+      <div style="font-weight:700; color:#fff; margin-bottom:14px;">📦 Installation</div>
+      <pre><span class="comment"># Install Scapy</span>
+<span class="cmd">pip install scapy</span>
+
+<span class="comment"># Linux: also install libpcap</span>
+<span class="cmd">sudo apt install python3-scapy libpcap-dev</span></pre>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700; color:#fff; margin-bottom:14px;">🧪 Run Unit Tests (no root)</div>
+      <pre><span class="cmd">python3 test_detector.py</span>
+
+<span class="comment"># Expected output:</span>
+<span class="str">  ✓ PASS  No alert before 100 packets
+  ✓ PASS  Alert fires at 100 packets
+  ✓ PASS  Alert fires for port 22 (SSH)
+  ...
+  5/5 tests passed</span></pre>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700; color:#fff; margin-bottom:14px;">🚀 Start the IDS</div>
+      <pre><span class="comment"># Linux / macOS</span>
+<span class="cmd">sudo python3 main.py</span>
+
+<span class="comment"># Windows (run terminal as Administrator)</span>
+<span class="cmd">python main.py</span></pre>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700; color:#fff; margin-bottom:14px;">💥 Trigger Test Alerts</div>
+      <pre><span class="comment"># Flood alert – ping quickly from another terminal</span>
+<span class="cmd">ping -f 192.168.1.1</span>          <span class="comment"># Linux flood ping</span>
+<span class="cmd">ping -t 192.168.1.1</span>          <span class="comment"># Windows continuous</span>
+
+<span class="comment"># Suspicious port – connect to SSH</span>
+<span class="cmd">ssh user@192.168.1.100</span>
+
+<span class="comment"># Repeated connection – quick port scan</span>
+<span class="cmd">nmap -p 22 192.168.1.100</span></pre>
+    </div>
+  </section>
+
+  <!-- ── Sample Alerts ─────────────────────────────────── -->
+  <section>
+    <h2><span class="num">05</span> Sample Alert Output</h2>
+    <div class="alert-ex alert-high">
+      ⚠ [ALERT #1] [HIGH] [PACKET_FLOOD] 192.168.1.5 sent 100 packets in 10s (threshold: 100)
+    </div>
+    <div class="alert-ex alert-medium">
+      ⚠ [ALERT #2] [MEDIUM] [SUSPICIOUS_PORT] 192.168.1.5 → 192.168.1.1:22 (TCP) — sensitive port access
+    </div>
+    <div class="alert-ex alert-medium">
+      ⚠ [ALERT #3] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.5 → 192.168.1.1:22 seen 50 times — possible scan or brute-force
+    </div>
+    <div class="alert-ex alert-high">
+      ⚠ [ALERT #4] [HIGH] [BLACKLISTED_IP] Traffic involving known-bad IP: 192.168.1.200 (192.168.1.200 → 192.168.1.1)
+    </div>
+    <div class="alert-ex alert-info">
+      ✓ [INFO] Session complete. Total alerts generated: 4 | Log saved to: /home/user/network_ids/alerts.log
+    </div>
+  </section>
+
+  <!-- ── Improvements ──────────────────────────────────── -->
+  <section>
+    <h2><span class="num">06</span> Ideas for Improvement</h2>
+    <div class="improvements">
+      <div class="imp-card">
+        <div class="imp-icon">🖥️</div>
+        <div class="imp-title">GUI Dashboard</div>
+        <div class="imp-desc">Add a Tkinter or PyQt window showing live packet count and alert list in real-time.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-icon">📊</div>
+        <div class="imp-title">Live Graph</div>
+        <div class="imp-desc">Use matplotlib to plot packets-per-second over time, highlighting flood spikes.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-icon">📋</div>
+        <div class="imp-title">CSV Export</div>
+        <div class="imp-desc">Write every packet summary to a CSV file for later analysis in Excel / Pandas.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-icon">🌐</div>
+        <div class="imp-title">IP Geolocation</div>
+        <div class="imp-desc">Use the <code>ip-api.com</code> API to show the country of each alert's source IP.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-icon">📡</div>
+        <div class="imp-title">PCAP Replay</div>
+        <div class="imp-desc">Add a mode to read saved .pcap files with Scapy instead of live traffic.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-icon">🔔</div>
+        <div class="imp-title">Email / Slack Alert</div>
+        <div class="imp-desc">Send a notification via SMTP or Slack webhook when a HIGH severity alert fires.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Viva Tips ─────────────────────────────────────── -->
+  <section>
+    <h2><span class="num">07</span> Viva Preparation Tips</h2>
+    <div class="card">
+      <ul>
+        <li><strong>What is an IDS?</strong> — A system that monitors network traffic and raises alerts when it detects suspicious patterns. IDS <em>detects</em> (it does not block); an IPS <em>prevents</em>.</li>
+        <li><strong>Why Scapy?</strong> — Scapy is a Python library that can capture, parse, craft, and send raw network packets. It wraps libpcap underneath.</li>
+        <li><strong>What is a rule-based IDS?</strong> — It compares traffic against predefined rules (thresholds, port lists, IP lists). Fast and explainable, but misses novel attacks.</li>
+        <li><strong>Why does it need root?</strong> — Raw socket access (required for packet sniffing below the OS abstraction) is restricted to privileged users on all major OSes.</li>
+        <li><strong>How do you test it without attacking a real host?</strong> — Use the unit tests in <code>test_detector.py</code>, or replay a pre-saved PCAP file.</li>
+        <li><strong>What's the difference between TCP and UDP?</strong> — TCP is connection-oriented with handshake + reliability; UDP is connectionless and faster but has no delivery guarantee.</li>
+        <li><strong>What is a DDoS?</strong> — Distributed Denial-of-Service: many machines flood a target to exhaust its resources. Rule 1 (packet flood) detects single-source variants.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
