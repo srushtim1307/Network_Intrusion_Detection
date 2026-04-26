@@ -80,3 +80,42 @@
 2026-04-26 01:05:42  |  WARNING   |  [ALERT #6] [MEDIUM] [REPEATED_CONNECTION] 142.250.82.211 \u2192 192.168.158.244:54131  seen 50 times  — possible scan or brute-force
 2026-04-26 01:05:45  |  WARNING   |  [ALERT #7] [HIGH] [PACKET_FLOOD] 142.250.82.211 sent 100 packets in 10s  (threshold: 100)
 2026-04-26 01:06:32  |  WARNING   |  [ALERT #8] [MEDIUM] [REPEATED_CONNECTION] 34.54.84.110 \u2192 192.168.158.244:63755  seen 50 times  — possible scan or brute-force
+2026-04-26 11:56:17  |  INFO      |  [INFO] Sniffer started on interface: default  (max packets: \u221e)
+2026-04-26 11:56:17  |  INFO      |  [INFO] Press Ctrl+C to stop.
+2026-04-26 11:56:24  |  WARNING   |  [ALERT #1] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 11:56:34  |  WARNING   |  [ALERT #2] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 104.208.16.90:443  seen 50 times  — possible scan or brute-force
+2026-04-26 11:56:46  |  WARNING   |  [ALERT #3] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 11:56:47  |  WARNING   |  [ALERT #4] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 104.18.32.47:443  seen 50 times  — possible scan or brute-force
+2026-04-26 11:56:48  |  WARNING   |  [ALERT #5] [MEDIUM] [REPEATED_CONNECTION] 104.18.32.47 \u2192 192.168.1.113:64798  seen 50 times  — possible scan or brute-force
+2026-04-26 11:56:48  |  WARNING   |  [ALERT #6] [HIGH] [PACKET_FLOOD] 104.18.32.47 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 11:56:48  |  WARNING   |  [ALERT #7] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 142.251.151.119:443  seen 50 times  — possible scan or brute-force
+2026-04-26 11:56:48  |  WARNING   |  [ALERT #8] [MEDIUM] [REPEATED_CONNECTION] 104.18.32.47 \u2192 192.168.1.113:58536  seen 50 times  — possible scan or brute-force
+2026-04-26 11:56:48  |  WARNING   |  [ALERT #9] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 172.64.144.52:443  seen 50 times  — possible scan or brute-force
+2026-04-26 11:56:57  |  WARNING   |  [ALERT #10] [HIGH] [PACKET_FLOOD] 104.18.32.47 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 11:57:04  |  WARNING   |  [ALERT #11] [MEDIUM] [REPEATED_CONNECTION] 104.208.16.90 \u2192 192.168.1.113:64790  seen 50 times  — possible scan or brute-force
+2026-04-26 11:57:05  |  WARNING   |  [ALERT #12] [HIGH] [PACKET_FLOOD] 104.18.32.47 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 11:57:06  |  WARNING   |  [ALERT #13] [MEDIUM] [REPEATED_CONNECTION] 172.64.144.52 \u2192 192.168.1.113:56214  seen 50 times  — possible scan or brute-force
+2026-04-26 11:57:06  |  WARNING   |  [ALERT #14] [MEDIUM] [REPEATED_CONNECTION] 142.251.151.119 \u2192 192.168.1.113:50060  seen 50 times  — possible scan or brute-force
+2026-04-26 11:57:09  |  WARNING   |  [ALERT #15] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 142.250.205.142:443  seen 50 times  — possible scan or brute-force
+2026-04-26 11:57:09  |  WARNING   |  [ALERT #16] [MEDIUM] [REPEATED_CONNECTION] 142.250.205.142 \u2192 192.168.1.113:64162  seen 50 times  — possible scan or brute-force
+2026-04-26 12:04:20  |  INFO      |  [INFO] Sniffer started on interface: default  (max packets: \u221e)
+2026-04-26 12:04:20  |  INFO      |  [INFO] Press Ctrl+C to stop.
+2026-04-26 12:04:24  |  WARNING   |  [ALERT #1] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 12:04:40  |  WARNING   |  [ALERT #2] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 35.237.69.59:443  seen 50 times  — possible scan or brute-force
+2026-04-26 12:04:41  |  WARNING   |  [ALERT #3] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 12:04:46  |  WARNING   |  [ALERT #4] [MEDIUM] [REPEATED_CONNECTION] 35.237.69.59 \u2192 192.168.1.113:64385  seen 50 times  — possible scan or brute-force
+2026-04-26 12:04:52  |  WARNING   |  [ALERT #5] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 12:04:58  |  WARNING   |  [ALERT #6] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 142.250.205.142:443  seen 50 times  — possible scan or brute-force
+2026-04-26 12:07:54  |  INFO      |  [INFO] Sniffer started on interface: default  (max packets: \u221e)
+2026-04-26 12:07:54  |  INFO      |  [INFO] Press Ctrl+C to stop.
+2026-04-26 12:08:03  |  WARNING   |  [ALERT #1] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 12:08:13  |  WARNING   |  [ALERT #2] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 35.237.69.59:443  seen 50 times  — possible scan or brute-force
+2026-04-26 12:08:14  |  WARNING   |  [ALERT #3] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 12:08:22  |  WARNING   |  [ALERT #4] [MEDIUM] [REPEATED_CONNECTION] 35.237.69.59 \u2192 192.168.1.113:64385  seen 50 times  — possible scan or brute-force
+2026-04-26 12:08:27  |  WARNING   |  [ALERT #5] [HIGH] [PACKET_FLOOD] 192.168.1.113 sent 100 packets in 10s  (threshold: 100)
+2026-04-26 12:08:39  |  WARNING   |  [ALERT #6] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 142.250.195.78:443  seen 50 times  — possible scan or brute-force
+2026-04-26 12:08:45  |  WARNING   |  [ALERT #7] [MEDIUM] [REPEATED_CONNECTION] 35.237.69.59 \u2192 192.168.1.113:64969  seen 50 times  — possible scan or brute-force
+2026-04-26 12:08:49  |  WARNING   |  [ALERT #8] [MEDIUM] [REPEATED_CONNECTION] 172.217.174.238 \u2192 192.168.1.113:64973  seen 50 times  — possible scan or brute-force
+2026-04-26 12:08:52  |  WARNING   |  [ALERT #9] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 52.168.117.170:443  seen 50 times  — possible scan or brute-force
+2026-04-26 12:08:59  |  WARNING   |  [ALERT #10] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 192.168.1.1:53  seen 50 times  — possible scan or brute-force
+2026-04-26 12:09:00  |  WARNING   |  [ALERT #11] [MEDIUM] [REPEATED_CONNECTION] 192.168.1.113 \u2192 216.239.34.223:443  seen 50 times  — possible scan or brute-force
